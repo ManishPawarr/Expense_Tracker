@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <title>Expense Tracker</title>
+  <link rel="icon" type="image/x-icon" href="/images/favicon_1.png">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    tbody {
+      font-size: 1.1rem;
+    }
+
+    .form-desc {
+      width: 30rem;
+      box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    }
+
+    .logo-img {
+      width: 50px;
+    }
+
+    .total-div {
+      justify-content: space-evenly;
+      font-size: 1.4rem;
+      font-weight: 500;
+      align-items: center;
+    }
+
+	#f_icon {
+	  width: 6%;
+	}
+	
+    @media (max-width: 450px) {
+      #add-button {
+        text-align: center;
+      }
+
+      #input-div {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .form-desc {
+        width: 19rem;
+        margin: 0.5rem;
+      }
+
+      #form2 {
+        width: 14rem;
+        margin: 0.5rem;
+      }
+
+      #st {
+        margin: 0.5rem;
+      }
+
+      #total-amt {
+        margin-top: 2rem;
+      }
+
+      .table-responsive {
+        overflow-x: auto;
+      }
+      
+      #f_icon {
+		width: 22%;
+	  }
+    }
+  </style>
+</head>
+
+<body>
+  <div th:replace="fragments/mainHeader :: div"></div>
+  <section class="bg-white">
+    <div class="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="text-3xl font-bold text-gray-900 sm:text-4xl">
+          Track your Expenses here
+        </h2>
+
+        <p class="mt-4 text-gray-500 sm:text-xl">
+          Welcome to our Expense Tracker! Effortlessly manage your finances, track expenses,
+          and split bills with friends. Stay informed about your spending habits and achieve
+          financial clarity.
+        </p>
+      </div>
+
+      <div class="mt-8 sm:mt-12">
+        <dl class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div class="flex flex-col rounded-lg bg-blue-100 px-4 py-8 text-center">
+            <dt class="order-last text-lg font-medium text-gray-500">
+              Total Expenses
+            </dt>
+
+            <dd class="text-4xl font-extrabold text-blue-600 md:text-5xl" th:text="${totalExpense}">
+            </dd>
+          </div>
+
+          <div class="flex flex-col rounded-lg bg-blue-100 px-4 py-8 text-center">
+            <dt class="order-last text-xl font-medium text-gray-500">
+              Total Profit
+            </dt>
+
+            <dd class="text-4xl font-extrabold text-blue-600 md:text-5xl" th:text="${profit}"></dd>
+          </div>
+
+          <div class="flex flex-col rounded-lg bg-blue-100 px-4 py-8 text-center">
+            <dt class="order-last text-lg font-medium text-gray-500">
+              Total Deposit
+            </dt>
+
+            <dd class="text-4xl font-extrabold text-blue-600 md:text-5xl" th:text="${totalDeposit}"></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="col py-3">
+    <div class="container col" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+      <div class="row d-flex justify-content-center align-items-center">
+
+        <div>
+          <div class="rounded-3">
+            <div class="card-body p-4">
+
+              <h1 class="text-center my-3 pb-3 display-4">Enter Personal Expenses here</h1>
+              <form action="#" th:action="@{/user/addItems}" th:object="${specific}" method="POST"
+                class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-5 pb-2">
+                <div class="col-12">
+                  <div class="form-outline d-flex" id="input-div">
+                    <input placeholder="Enter description here" required type="text" id="form1"
+                      class="form-control mx-10 form-desc" name="description" />
+                    <input placeholder="Enter amount here" required type="number" id="form2" class="form-control"
+                      style="width: 13rem; box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;" name="spent" />
+                    <input type="hidden" id="form3" class="form-control"
+                      style="width: 13rem; box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;" name="uId" />
+                    <select required id="st" class="mx-5 sm:text-sm"
+                      style="width: 10rem; box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 5%;"
+                      name="type">
+                      <option value="">Please select</option>
+                      <option th:value="0" class="bg-danger text-white" th:text="Spent"></option>
+                      <option th:value="1" class="bg-success text-white" th:text="Deposit"></option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-12" id="add-button">
+                  <button type="submit" class="btn btn-outline-primary" id="addButton"
+                    style="box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;">Add</button>
+                </div>
+              </form>
+
+              <hr class="mb-4">
+
+              <div class="table-responsive">
+                <table class="table mb-4 table-hover" id="expense-table">
+                  <thead>
+                    <tr class="text-center">
+                      <th scope="col" class="text-center">No.</th>
+                      <th scope="col" class="text-center">Description</th>
+                      <th scope="col" class="text-center">Amount</th>
+                      <th scope="col" class="text-center">Date</th>
+                      <th scope="col" class="text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <tr class="text-center" th:each="spec, rowStat : ${specific}">
+                      <td scope="row" th:text="${rowStat.index + 1}"></td>
+                      <td th:text="${spec.description}"></td>
+                      <td th:text="${spec.spent}" th:id="${'amount_' + spec.uId}"
+                        th:class="${spec.type == 0 ? 'text-danger' : (spec.type == 1 ? 'text-success' : '')}"></td>
+                      <td th:text="${#dates.format(spec.lastUpdate, 'yyyy-MM-dd')}"></td>
+                      <td>
+                        <a th:href="@{/user/deleteItems(uId=${spec.uId})}" class="btn btn-danger mx-3">Delete</a>
+                        <a th:href="@{/user/editItem(uId=${spec.uId})}" class="btn btn-warning">Edit</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="total-div d-flex text-center justify-content-center" id="total-amt" style="width: 100%">
+                <h3 class="total-head mx-2">TOTAL :</h3>
+                <h3 class="total-value d-flex justify-content-center align-items-center"
+                  style="height: 2.8rem; width: 12rem; border: 1px groove gray;" th:text="${profit}"></h3>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <div class="fixed-bottom text-right p-3 mb-2" id="f_icon">
+    <a href="/user/category/friends">
+      <img src="/images/friends_.png" alt="social circle" class="logo-img" data-toggle="tooltip"
+        title="Wanna split expense between friends?">
+    </a>
+  </div>
+
+
+
+
+  <div th:replace="fragments/mainFooter :: footer"></div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $("#expense-table").DataTable();
+    })
+  </script>
+  <script>
+    $(document).ready(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
+
+</body>
+
+</html>
+
+</body>
+
+</html>

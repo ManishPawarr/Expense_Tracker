@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xlmns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Expense Tracker - Register</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.15.0/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="/images/favicon_1.png">
+  <style>
+    .divider:after,
+    .divider:before {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #eee;
+    }
+
+    .h-custom {
+      height: calc(100% - 73px);
+    }
+
+    @media (max-width: 450px) {
+      .h-custom {
+        height: 100%;
+      }
+
+      #br-br {
+        width: 100%;
+        height: 100%;
+      }
+
+      #next-div {
+        display: flex;
+      }
+
+      #main-div {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #main-form {
+        height: 20rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+      }
+
+      .inputs {
+        height: 3rem;
+      }
+
+      #reg-button {
+        width: 9rem;
+        height: 4rem;
+      }
+
+      #already-para {
+        font-size: 1.1rem;
+      }
+
+      #main-img {
+        height: 14rem;
+      }
+
+      .main-header {
+        background: #eee;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div th:replace="fragments/header :: header" class="main-header"></div>
+
+  <section class="vh-100" style="background-color: white;">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-12 col-xl-11">
+          <div class="card text-black" style="border-radius: 25px;" id="br-br">
+            <div class="card-body p-md-5" id="next-div">
+              <div class="row justify-content-center">
+                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1" id="main-div">
+
+                  <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Register</p>
+
+                  <div class="text-center mb-3" th:if="${errorMessage}" style="color: red">
+                    <span th:text="${errorMessage}"></span>
+                  </div>
+
+                  <form th:action="@{/createUser}" method="POST" class="mx-1 mx-md-4" id="main-form">
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <div class="form-outline flex-fill mb-0">
+                        <input type="text" id="form3Example1c" required name="name" placeholder="Enter username"
+                          class="inputs form-control" />
+                        
+                      </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <div class="form-outline flex-fill mb-0">
+                        <input type="email" id="form3Example3c" required placeholder="Enter your email" name="email"
+                          class="inputs form-control" />
+                      
+                      </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <div class="form-outline flex-fill mb-0">
+                        <input type="password" id="form3Example4c" required placeholder="Enter password" name="password"
+                          class="inputs form-control" />
+                      </div>
+                      <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                    </div>
+
+
+                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4" id="button-div">
+                      <button type="submit" class="btn btn-primary btn-lg" id="reg-button">Register</button>
+                    </div>
+                    <p class="text-center small fw-bold mt-2 pt-1 mb-0" id="already-para">Already have an account? <a
+                        href="/signin" class="link-danger">Login</a></p>
+                  </form>
+
+                </div>
+                <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+
+                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                    class="img-fluid" id="main-img" alt="Sample image">
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const togglePasswordButton = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('form3Example4c');
+
+    togglePasswordButton.addEventListener('click', () => {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        togglePasswordButton.innerHTML = '<i class="bi bi-eye-slash"></i>';
+      } else {
+        passwordInput.type = 'password';
+        togglePasswordButton.innerHTML = '<i class="bi bi-eye"></i>';
+      }
+    });
+  </script>
+</body>
+
+</html>

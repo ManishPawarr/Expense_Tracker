@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xlmns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Expense Tracker - Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.15.0/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="/images/favicon_1.png">
+  <style>
+    .divider:after,
+    .divider:before {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #eee;
+    }
+
+    .h-custom {
+      height: calc(100% - 73px);
+    }
+
+    @media (max-width: 450px) {
+      .h-custom {
+        height: 100%;
+      }
+
+      #mainForm {
+        height: 20rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div th:replace="fragments/header :: nav"></div>
+  <section class="vh-100">
+    <div class="container-fluid h-custom">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-md-9 col-lg-6 col-xl-5">
+          <h1 class="text-center" style="font-size: 3.2rem;">Login Here</h1>
+          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="img-fluid"
+            alt="Sample image">
+        </div>
+        <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+          <div th:if="${param.error}" class="alert alert-danger">
+            Invalid Username or Password
+          </div>
+
+          <form th:action="@{/login}" method="POST" id="mainForm">
+
+            <div class="form-outline mb-4">
+              <input type="email" required name="username" id="form3Example3" class="form-control form-control-lg"
+                placeholder="Enter a valid email address" />
+            </div>
+
+
+            <div class="d-flex flex-row align-items-center mb-4">
+              <div class="form-outline flex-fill mb-0">
+                <input type="password" required name="password" id="form3Example4" class="form-control form-control-lg"
+                  placeholder="Enter password" />
+              </div>
+              <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+
+
+            <div class="text-center text-lg-start mt-4 pt-2">
+              <button type="submit" class="btn btn-primary btn-lg"
+                style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
+              <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="/register"
+                  class="link-danger">Register</a></p>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const togglePasswordButton = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('form3Example4');
+    let isPasswordVisible = false;
+
+    togglePasswordButton.addEventListener('click', () => {
+      isPasswordVisible = !isPasswordVisible;
+      passwordInput.type = isPasswordVisible ? 'text' : 'password';
+      togglePasswordButton.querySelector('i').classList.toggle('bi-eye');
+      togglePasswordButton.querySelector('i').classList.toggle('bi-eye-slash');
+    });
+  </script>
+</body>
+
+</html>
