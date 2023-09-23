@@ -11,7 +11,7 @@ COPY pom.xml .
 COPY src ./src
 
 # Build the application using Maven
-RUN mvn clean package -DskipTests
+RUN mvn clean install -DskipTests
 
 # Stage 2: Create the final image with the built JAR file
 FROM openjdk:17.0.1-jdk-slim
