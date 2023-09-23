@@ -4,8 +4,11 @@ FROM maven:3.8.3-openjdk-17 AS build
 # Set the working directory
 WORKDIR /app
 
-# Copy the entire project to the working directory
-COPY . .
+# Copy the POM file to download dependencies
+COPY pom.xml .
+
+# Copy the entire project source
+COPY src ./src
 
 # Build the application using Maven
 RUN mvn clean package -DskipTests
