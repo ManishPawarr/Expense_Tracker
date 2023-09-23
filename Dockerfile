@@ -17,7 +17,7 @@ FROM openjdk:17.0.1-jdk-slim
 WORKDIR /app
 
 # Copy the JAR file from the build stage to the current directory
-COPY --from=build /app/target/ProjectTry3-0.0.1-SNAPSHOT.jar ProjectTry3.jar
+COPY --from=build /app/target/project-try-3-0.0.1-SNAPSHOT.jar ProjectTry3.jar
 
 # Expose the port your Spring Boot application runs on (default is 8080)
 EXPOSE 8080
